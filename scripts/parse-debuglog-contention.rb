@@ -28,9 +28,9 @@ end
 s = lock_to_location_to_duration.to_a.sort { |a,b| a[1][0] <=> b[1][0] }
 
 s.each do |lock, total_and_location_to_duration|
-    printf("%10.3fms %s\n", total_and_location_to_duration[0] * 1e-3, lock)
     sorted = total_and_location_to_duration[1].to_a.sort { |a, b| a[1] <=> b[1] }
     sorted.each do |location, duration|
-        printf("\t%10.3fms %s\n", duration * 1e-3, location)
+        printf("%10.3fms %s\n", duration * 1e-3, location)
     end
+    printf("----------------------\n%10.3fms %s\n\n", total_and_location_to_duration[0] * 1e-3, lock)
 end
