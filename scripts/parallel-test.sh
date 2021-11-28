@@ -3,7 +3,7 @@ set -e
 
 if [ "$#" -ne 2 ]; then
     echo "usage: $0 <bitcoin_test-binary-path> <suppressions> | parallel --joblog out.log"
-    echo "e.g: $0 ~/git/bitcoin/src/test/test_bitcoin ~/git/bitcoin/src/test| parallel --joblog out.log"
+    echo "e.g: $0 ~/git/bitcoin/src/test/test_bitcoin ~/git/bitcoin/src/test ~/git/bitcoin/contrib/valgrind.supp | parallel --joblog out.log"
     exit 1
 fi
 

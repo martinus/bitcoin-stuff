@@ -9,9 +9,9 @@ puts "usage: <old> <new>"
 percent = (t_new - t_old) / t_old * 100.0
 times = t_new/t_old
 if (t_new < t_old)
-    puts "New is #{-percent}% faster than Old"
-    puts "New is #{t_old / t_new} times faster than Old"
+    printf "New is %.2f%% faster than Old\n", -percent
+    printf "New is %.3f times faster than Old\n", t_old / t_new
 else
-    puts "New is #{percent}% slower than Old"
+    puts "New is $.2f%% slower than Old", percent
 end
 
