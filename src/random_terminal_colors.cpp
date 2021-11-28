@@ -46,9 +46,9 @@ struct Color {
     ColorType m_color_type = ColorType::reset;
 
     // reset
-    Color() = default;
+    constexpr Color() = default;
 
-    Color(ColorType ct, double r, double g, double b)
+    constexpr Color(ColorType ct, double r, double g, double b)
         : m_r(std::clamp<int>(r * 256, 0, 255))
         , m_g(std::clamp<int>(g * 256, 0, 255))
         , m_b(std::clamp<int>(b * 256, 0, 255))
@@ -64,12 +64,12 @@ constexpr auto operator<<(std::ostream& os, Color const& c) -> std::ostream& {
     return os << code << (int)c.m_r << ';' << (int)c.m_g << ';' << (int)c.m_b << 'm';
 }
 
-auto hsv_bg(double hue, double saturation, double value) -> Color {
+constexpr auto hsv_bg(double hue, double saturation, double value) -> Color {
     auto rgb = detail::hsv_to_rgb(hue, saturation, value);
     return {ColorType::background, rgb[0], rgb[1], rgb[2]};
 }
 
-auto hsv_fg(double hue, double saturation, double value) -> Color {
+constexpr auto hsv_fg(double hue, double saturation, double value) -> Color {
     auto rgb = detail::hsv_to_rgb(hue, saturation, value);
     return {ColorType::foreground, rgb[0], rgb[1], rgb[2]};
 }
@@ -82,6 +82,25 @@ auto reset() -> Color {
 
 // clang++ -std=c++17 -O2 random_terminal_colors.cpp
 int main() {
+    auto const golden_ratio_conjugate = 0.618033988749895;
+
+    // sat = 0.7;
+    // val = 0.85;
+
+    auto saturation = 0.7;
+    auto value = 0.2;
+    for (int x = 0; x < 10; ++x) {
+        auto hue = 0.0; // any start value is ok
+        for (char c = 'A'; c <= 'Z'; ++c) {
+            std::cout << term::hsv_fg(hue, saturation, value) << ' ' << c << ' ' << term::reset() << ' ';
+            hue += golden_ratio_conjugate;
+            if (hue >= 1.0) {
+                hue -= 1.0;
+            }
+        }
+        std::cout << saturation << " saturation, " << value << " value" << std::endl;
+        value += 0.07;
+    }
     std::cout << term::hsv_fg(0.3, 0.7, 0.85) << "hello!" << term::reset() << " World" << std::endl;
 
     std::cout << "Hello World!" << std::endl;
